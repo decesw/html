@@ -179,7 +179,7 @@
 
 
 
-        <a href="javascript:ShowHideScript('#recognizeLocalScriptDiv')">Show/Hide Script</a><br />
+        <a id="scriptToggleRecognizeLocal">Show/Hide Script</a><br />
         <textarea id="recognizeLocalScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
 
 
@@ -234,7 +234,7 @@
 
         <div id=RecognizeContentResponse class="scriptView" style="overflow:auto"></div>
 
-        <a href="javascript:ShowHideScript('#recognizeContentScriptDiv')">Show/Hide Script</a><br />
+        <a id="scriptToggleRecognizeContent">Show/Hide Script</a><br />
         <textarea id="recognizeContentScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
 
         <h4>Recognize Text</h4>
@@ -276,7 +276,7 @@
 
         <div id=RecognizeTextResponse class="scriptView" style="overflow:auto"></div>
 
-        <a href="javascript:ShowHideScript('#recognizeTextScriptDiv')">Show/Hide Script</a><br />
+        <a id="scriptToggleRecognizeText">Show/Hide Script</a><br />
         <textarea id="recognizeTextScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
     </div>
 
@@ -284,6 +284,9 @@
         $("#recognizeLocalScriptDiv").html($("#recognizeLocalScript").html());
         $("#recognizeTextScriptDiv").html($("#recognizeTextScript").html());
         $("#recognizeContentScriptDiv").html($("#recognizeContentScript").html());
+        $("#scriptToggleRecognizeLocal").click(function () { ShowHideScript("#recognizeLocalScriptDiv"); });
+        $("#scriptToggleRecognizeText").click(function () { ShowHideScript("#recognizeTextScriptDiv"); });
+        $("#scriptToggleRecognizeContent").click(function () { ShowHideScript("#recognizeContentScriptDiv"); });
     </script>
 
 </body>

@@ -188,10 +188,11 @@
             </div>
         </div>
 
-        <a href="javascript:ShowHideScript('#tokenScriptDiv')">Show/Hide Script</a><br />
+        <a id="scriptToggle">Show/Hide Script</a><br />
         <textarea id="tokenScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
 
         <script>
+            $("#scriptToggle").click(function () { ShowHideScript("#tokenScriptDiv"); });
             $("#tokenScriptDiv").html($("#tokenScript").html());
         </script>
     </div>

@@ -164,11 +164,12 @@
             </div>
         </div>
 
-        <a href="javascript:ShowHideScript('#feedScriptDiv')">Show/Hide Script</a><br />
+        <a id="scriptToggle">Show/Hide Script</a><br />
         <textarea id="feedScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
     </div>
 
     <script>
+        $("#scriptToggle").click(function () { ShowHideScript("#feedScriptDiv"); });
         $("#feedScriptDiv").html($("#feedScript").html());
     </script>
 
