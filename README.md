@@ -6,3 +6,4 @@ HTML sayfalarının öznizlemesine aşağıdaki bağlantılardan ulaşılabilir:
 * https://htmlpreview.github.io/?https://github.com/decesw/html/blob/master/QueryApi.html
 * https://htmlpreview.github.io/?https://github.com/decesw/html/blob/master/TokenApi.html
 * https://htmlpreview.github.io/?https://github.com/decesw/html/blob/master/DataExtractionApi.html
+* https://htmlpreview.github.io/?https://github.com/decesw/html/blob/master/WsInfoApi.html
