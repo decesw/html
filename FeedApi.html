@@ -1,0 +1,176 @@
+﻿<html>
+<head>
+    <title>GEODI Javascript Feed Api</title>
+
+
+    <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" />
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+
+
+    <style>
+        .key {
+            color: red;
+        }
+
+        .split {
+            color: red;
+        }
+
+        .value {
+        }
+
+        .form-group {
+            margin-bottom: 5px !important;
+        }
+
+        .control-label {
+            text-align: left !important;
+        }
+
+        .scriptView {
+            clear: left;
+            font-size: 10pt;
+            max-height: 750px;
+            min-height: 100px;
+            display: none;
+        }
+
+        .txtScript {
+            min-height: 400px;
+            margin-left: 0px;
+        }
+    </style>
+
+    <script>
+
+
+        $(document).ajaxError(function (event, data, settings) {
+
+            var txt = data.status + ": " + data.statusText + " " + data.responseText;
+            alert(txt);
+
+        });
+
+        function UrlEncode(val) {
+            return window.encodeURIComponent ? window.encodeURIComponent(val) : val.replace(/&/g, '%26');
+        }
+
+        function json2html(json) {
+            var i, ret = "";
+            ret += "<ul>";
+            for (i in json) {
+                ret += "<li><span class=key>" + i + "</span>";
+                if (typeof json[i] === "object") ret += json2html(json[i]);
+                else ret += "<span class=split>:</span> <span class=value>" + json[i] + "</span>";
+                ret += "</li>";
+            }
+            ret += "</ul>";
+            return ret;
+        }
+
+
+        function ShowHideScript(target) {
+
+            if ($(target).is(":visible"))
+                $(target).hide();
+            else
+                $(target).show();
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h3>Feed API</h3>
+        </div>
+        <div class="panel panel-warning" id="lFileSendWarning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Warning</h3>
+            </div>
+            <div class="panel-body">
+                Sending local files doesn't work in some browsers.
+            </div>
+        </div>
+
+        <script>
+            var docLocHref = document.location.href.toLowerCase();
+            if (docLocHref.startsWith("http"))
+                $("#lFileSendWarning").hide();
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="serverUrl">Geodi Url </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="serverUrl" id="serverUrl" Value="http://127.0.0.1:3323">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="token">Token </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="token" id="token" value="EAAAACpv7hRFzRE6pNcRuiDyWGQ5tDAjmK2/kzBq3IE4WSWI4CiuzqfjmfmQwqAMPI0F/hMxiHUrj8VIq4p2HhpQu7YB1uk3Fi7oQwo6tHuTjtGqVPwCvo8gux062/fLTatfCqc2rKGIG134UCLZsm39w5q5Esr+3Ezg0Ztc7IMUDMTG+SfOZ8NoptbloRA72Gx5BVtF42oovSXEcx5NkxX0Tkr5H1GOZR8wIVkd9NYcQgdmqw6C8NcRgOdjq4FP9JnonEQ/ggDiqEL+/4g/1vF5YPNT8ZvS8dQY0zUd0aOzSyFfcBs04XTThUcIIvu0JvyhrDfQGvPXwBy0EHx7IXRwzn4u//ZfFxdnXKZRpIP05rGZ5IkBUMwR0M1QEjwnOaEWQw==">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script id="feedScript">
+            function Feed() {
+                var fileData = $("#feedUploadFile")[0].files[0];
+                var url = $("#serverUrl").val() + "/FeedHandler?op=Feed";
+                url += "&fileName=" + UrlEncode(fileData.name);
+                url += "&UserSession=" + UrlEncode($("#token").val());
+                $.ajax({
+                    url: url,  //Server script to process data
+                    type: "POST",
+                    data: fileData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    crossDomain: true,
+                    timeout: 300000,
+                    success: function (ok) {
+                        alert(ok);
+                    }
+                });
+            }
+
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="serverUrl">File </label>
+                        <div class="col-md-5">
+                            <input id="feedUploadFile" type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
+                        <div class="col-md-2">
+                            <button type=button onclick=Feed() class="btn btn-default form-control">Feed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:ShowHideScript('#feedScriptDiv')">Show/Hide Script</a><br />
+        <textarea id="feedScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
+    </div>
+
+    <script>
+        $("#feedScriptDiv").html($("#feedScript").html());
+    </script>
+
+</body>
+</html>

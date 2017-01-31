@@ -1,0 +1,290 @@
+﻿<html>
+<head>
+    <title>GEODI Javascript Data Extraction Api</title>
+
+
+    <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" />
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+
+
+    <style>
+        .key {
+            color: red;
+        }
+
+        .split {
+            color: red;
+        }
+
+        .value {
+        }
+
+        .form-group {
+            margin-bottom: 5px !important;
+        }
+
+        .control-label {
+            text-align: left !important;
+        }
+
+        .scriptView {
+            clear: left;
+            font-size: 10pt;
+            max-height: 750px;
+            min-height: 100px;
+            display: none;
+        }
+
+        .txtScript {
+            min-height: 400px;
+            margin-left: 0px;
+        }
+    </style>
+
+    <script>
+        $(document).ajaxError(function (event, data, settings) {
+
+            var txt = data.status + ": " + data.statusText + " " + data.responseText;
+            alert(txt);
+
+        });
+
+        function UrlEncode(val) {
+            return window.encodeURIComponent ? window.encodeURIComponent(val) : val.replace(/&/g, '%26');
+        }
+
+        function json2html(json) {
+            var i, ret = "";
+            ret += "<ul>";
+            for (i in json) {
+                ret += "<li><span class=key>" + i + "</span>";
+                if (typeof json[i] === "object") ret += json2html(json[i]);
+                else ret += "<span class=split>:</span> <span class=value>" + json[i] + "</span>";
+                ret += "</li>";
+            }
+            ret += "</ul>";
+            return ret;
+        }
+
+
+        function ShowHideScript(target) {
+
+            if ($(target).is(":visible"))
+                $(target).hide();
+            else
+                $(target).show();
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h3>Data Extraction API</h3>
+        </div>
+        <div class="panel panel-warning" id="lFileSendWarning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Warning</h3>
+            </div>
+            <div class="panel-body">
+                Sending local files doesn't work in some browsers.
+            </div>
+        </div>
+
+        <script>
+            var docLocHref = document.location.href.toLowerCase();
+            if (docLocHref.startsWith("http"))
+                $("#lFileSendWarning").hide();
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="serverUrl">Geodi Url </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="serverUrl" id="serverUrl" Value="http://127.0.0.1:3323">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="token">Token </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="token" id="token" value="EAAAACpv7hRFzRE6pNcRuiDyWGQ5tDAjmK2/kzBq3IE4WSWI4CiuzqfjmfmQwqAMPI0F/hMxiHUrj8VIq4p2HhpQu7YB1uk3Fi7oQwo6tHuTjtGqVPwCvo8gux062/fLTatfCqc2rKGIG134UCLZsm39w5q5Esr+3Ezg0Ztc7IMUDMTG+SfOZ8NoptbloRA72Gx5BVtF42oovSXEcx5NkxX0Tkr5H1GOZR8wIVkd9NYcQgdmqw6C8NcRgOdjq4FP9JnonEQ/ggDiqEL+/4g/1vF5YPNT8ZvS8dQY0zUd0aOzSyFfcBs04XTThUcIIvu0JvyhrDfQGvPXwBy0EHx7IXRwzn4u//ZfFxdnXKZRpIP05rGZ5IkBUMwR0M1QEjwnOaEWQw==">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="wsName">wsName</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="wsName" id="wsName" placeholder="Please enter workspace name.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4>Recognize Local Content</h4>
+
+        <script id="recognizeLocalScript">
+            function RecognizeLocal() {
+                var fileData = $("#recognizeUploadFile")[0].files[0];
+                var url = $("#serverUrl").val() + "/DataExtractionHandler?op=RecognizeContent";
+                url += "&fileName=" + UrlEncode(fileData.name);
+                url += "&wsName=" + UrlEncode($("#wsName").val());
+                url += "&UserSession=" + UrlEncode($("#token").val());
+                $("#RecognizeLocalRespose").hide();
+                $.ajax({
+                    url: url,  //Server script to process data
+                    type: "POST",
+                    data: fileData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    crossDomain: true,
+                    timeout: 300000,
+                    success: function (ok) {
+                        var html = "<h5></i>Response</i></h5>" + json2html(ok)
+                        $("#RecognizeLocalRespose").html(html);
+                        $("#RecognizeLocalRespose").show();
+                    }
+                });
+            }
+        </script>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="recognizeUploadFile">File </label>
+                        <div class="col-md-5">
+                            <input id="recognizeUploadFile" type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
+                        <div class="col-md-2">
+                            <button type=button class="btn btn-default form-control" onclick=RecognizeLocal()>Recognize Content</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id=RecognizeLocalRespose class="scriptView" style="overflow:auto"></div>
+
+
+
+        <a href="javascript:ShowHideScript('#recognizeLocalScriptDiv')">Show/Hide Script</a><br />
+        <textarea id="recognizeLocalScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
+
+
+        <h4>Recognize Content</h4>
+
+        <script id="recognizeContentScript">
+            function RecognizeContent() {
+                var content = {
+                    ContentURL: $("#contentUrl").val(),
+                    DisplayName: $("#contentDisp").val()
+                };
+
+                var url = $("#serverUrl").val() + "/DataExtractionHandler?op=RecognizeContent";
+                url += "&wsName=" + UrlEncode($("#wsName").val());
+                url += "&UserSession=" + UrlEncode($("#token").val());
+                url += "&content=" + UrlEncode(JSON.stringify(content));
+
+                $("#RecognizeContentResponse").hide();
+                $.post(url, function (ok) {
+                    var html = "<h5></i>Response</i></h5>" + json2html(ok)
+                    $("#RecognizeContentResponse").html(html);
+                    $("#RecognizeContentResponse").show();
+                });
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="contentUrl">Content URL </label>
+                        <div class="col-md-5">
+                            <input id="contentUrl" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="contentDisp">Display Name </label>
+                        <div class="col-md-5">
+                            <input id="contentDisp" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
+                        <div class="col-md-2">
+                            <button type=button class="btn btn-default form-control" onclick=RecognizeContent()>Recognize Content</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id=RecognizeContentResponse class="scriptView" style="overflow:auto"></div>
+
+        <a href="javascript:ShowHideScript('#recognizeContentScriptDiv')">Show/Hide Script</a><br />
+        <textarea id="recognizeContentScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
+
+        <h4>Recognize Text</h4>
+
+        <script id="recognizeTextScript">
+            function RecognizeText() {
+                var url = $("#serverUrl").val() + "/DataExtractionHandler?op=Recognize";
+                url += "&wsName=" + UrlEncode($("#wsName").val());
+                url += "&Text=" + UrlEncode($("#recognizeInput").val());
+                url += "&UserSession=" + UrlEncode($("#token").val());
+                $("#RecognizeTextResponse").hide();
+                $.post(url, function (ok) {
+                    var html = "<h5></i>Response</i></h5>" + json2html(ok)
+                    $("#RecognizeTextResponse").html(html);
+                    $("#RecognizeTextResponse").show();
+                });
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="recognizeInput">Text </label>
+                        <div class="col-md-5">
+                            <textarea type="text" class="form-control" id="recognizeInput"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1"></label>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-default form-control" onclick=RecognizeText()>Recognize Text</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id=RecognizeTextResponse class="scriptView" style="overflow:auto"></div>
+
+        <a href="javascript:ShowHideScript('#recognizeTextScriptDiv')">Show/Hide Script</a><br />
+        <textarea id="recognizeTextScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
+    </div>
+
+    <script>
+        $("#recognizeLocalScriptDiv").html($("#recognizeLocalScript").html());
+        $("#recognizeTextScriptDiv").html($("#recognizeTextScript").html());
+        $("#recognizeContentScriptDiv").html($("#recognizeContentScript").html());
+    </script>
+
+</body>
+</html>
