@@ -182,12 +182,11 @@
 
         <div id=queryResponse class="scriptView" style="overflow:auto"></div>
 
-        <a id="scriptToggle">Show/Hide Script</a><br />
+        <a href="javascript:void(0)" onclick="ShowHideScript('#queryScriptDiv')">Show/Hide Script</a><br />
         <textarea id="queryScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
 
     </div>
     <script>
-        $("#scriptToggle").click(function(){ ShowHideScript("#queryScriptDiv"); });
         $("#queryScriptDiv").html($("#queryScript").html());
     </script>
 </body>

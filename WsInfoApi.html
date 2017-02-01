@@ -156,12 +156,11 @@
 
         <div id=wsInfoResponse class="scriptView" style="overflow:auto"></div>
 
-        <a id="scriptToggle">Show/Hide Script</a><br />
+        <a href="javascript:void(0)" onclick="ShowHideScript('#wsInfoScriptDiv')">Show/Hide Script</a><br />
         <textarea id="wsInfoScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
     </div>
 
     <script>
-        $("#scriptToggle").click(function () { ShowHideScript("#wsInfoScriptDiv"); });
         $("#wsInfoScriptDiv").html($("#wsInfoScript").html());
     </script>
 </body>
