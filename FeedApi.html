@@ -84,25 +84,14 @@
     </script>
 </head>
 <body>
+    <div class="alert alert-warning alert-dismissable fade in">
+        <a href="javascript:void(0)" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> Some features such as local file upload may not work or display properly due to browsers or previews.
+    </div>
     <div class="container">
         <div class="row">
             <h3>Feed API</h3>
         </div>
-        <div class="panel panel-warning" id="lFileSendWarning">
-            <div class="panel-heading">
-                <h3 class="panel-title">Warning</h3>
-            </div>
-            <div class="panel-body">
-                Sending local files doesn't work in some browsers.
-            </div>
-        </div>
-
-        <script>
-            var docLocHref = document.location.href.toLowerCase();
-            if (docLocHref.startsWith("http"))
-                $("#lFileSendWarning").hide();
-        </script>
-
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-horizontal">
