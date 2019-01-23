@@ -8,7 +8,7 @@
 	
 	function loadScripts(scripts, appendTo) {
 		  appendTo = appendTo || "body";
-		  return new Promise((done) => {
+		  debugger;
 			(function recurse(i) {
 			  if (undefined === scripts[i]) return done();
 			  let src = scripts[i];
@@ -33,7 +33,6 @@
 			  script.src = src;
 			  document.getElementsByTagName(appendTo)[0].appendChild(script);
 			})(0);
-		});
 	}
 		if(!window.jQuery)
 			loadScripts("https://code.jquery.com/jquery-2.1.3.min.js")
