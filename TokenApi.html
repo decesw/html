@@ -73,11 +73,6 @@
     </style>
 
     <script>
-		$(document).ajaxError(function (event, data, settings) {
-
-			var txt = data.status + ": " + data.statusText + " " + data.responseText;
-			alert(txt);
-		});
         function UrlEncode(val) {
             return window.encodeURIComponent ? window.encodeURIComponent(val) : val.replace(/&/g, '%26');
         }
@@ -230,7 +225,17 @@
         <textarea id="tokenScriptDiv" class="row scriptView txtScript form-control" readonly></textarea>
 
         <script>
+		function jqLoad() {
+			if(!window.jQuery) {
+				window.setTimeout(jqLoad,100);
+			}
+			$(document).ajaxError(function (event, data, settings) {
+				var txt = data.status + ": " + data.statusText + " " + data.responseText;
+				alert(txt);
+			});
             $("#tokenScriptDiv").html($("#tokenScript").html());
+			}
+			jqLoad();
         </script>
     </div>
 </body>
