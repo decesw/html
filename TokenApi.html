@@ -226,14 +226,15 @@
 
         <script>
 		function jqLoad() {
-			if(!window.jQuery) {
-				window.setTimeout(jqLoad,100);
-			}
-			$(document).ajaxError(function (event, data, settings) {
-				var txt = data.status + ": " + data.statusText + " " + data.responseText;
-				alert(txt);
-			});
-            $("#tokenScriptDiv").html($("#tokenScript").html());
+				if(!window.jQuery) {
+					window.setTimeout(jqLoad,100);
+					return;
+				}
+				$(document).ajaxError(function (event, data, settings) {
+					var txt = data.status + ": " + data.statusText + " " + data.responseText;
+					alert(txt);
+				});
+				$("#tokenScriptDiv").html($("#tokenScript").html());
 			}
 			jqLoad();
         </script>
