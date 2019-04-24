@@ -27,12 +27,14 @@
 				};
 			  } else { //Others
 				script.onload = () => {
+					Init();
 				  setTimeout(() => {
 					recurse(++i);
 				  }, 1);
 				};
 			  }
 			  script.src = src;
+			  Init();
 			  document.getElementsByTagName(appendTo)[0].appendChild(script);
 			})(0);
 	}
@@ -173,10 +175,8 @@
 		
 		 <script id="queryScript">
 			function Init() {
-				if(!window.angular) {
-					window.setTimeout(Init,100);
-					return;
-				}
+					if(window.app || !window.angular)
+						return;
 					window.app = angular.module('DLV', []);
 						app.filter("trust", ['$sce', function($sce) {
 						  return function(htmlCode){
