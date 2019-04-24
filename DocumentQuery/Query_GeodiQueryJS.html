@@ -287,17 +287,17 @@
 
     <div id=templates style="display:none">
 
-        <script id=tmpSimple type="dece-template">
+        <template id=tmpSimple type="dece-template">
             <d:r data="data">
                 <li>
                     {{ data.DisplayName }}  -  {{ data.AdditionalValues.Date }} <br>
                     <span class="SummaryText __textclass geodiFormatable" contentid="{{data.ContentIdentifier}}">{{data.Summary}}</span>
                 </li>
             </d:r>
-        </script>
+        </template>
 
 
-        <script id=onlyImages type="dece-template">
+        <template id=onlyImages type="dece-template">
             <d:r data="data">
                 <d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
                     <a href="{{data.GetHref()}}" target="_blank">
@@ -305,9 +305,9 @@
                     </a>
                 </d:r>
             </d:r>
-        </script>
+        </template>
 
-        <script id=crouselTemplate type="dece-template">
+        <template id=crouselTemplate type="dece-template">
             <d:r visible="data && data.length&gt;0 ">
                 <div id="crs_{{context.targetDom.attr('id')}}" class="carousel slide" data-ride="carousel">
 
@@ -346,7 +346,7 @@
                     </a>
 
                 </div>
-        </script>
+        </template>
     </div>
 
     <script id="queryScript">
