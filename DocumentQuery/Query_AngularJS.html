@@ -8,6 +8,24 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script src="https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js"></script>
 	<script>
+	//angular init
+		window.Init =function() {
+					if(window.app || !window.angular)
+						return;
+					window.app = angular.module('DLV', []);
+						app.filter("trust", ['$sce', function($sce) {
+						  return function(htmlCode){
+							return htmlCode;
+						  }
+						}]);
+						
+						app.controller('DLVc', function($scope,$sce) {
+								$scope.docs=[];
+								window.controllerScope=$scope;
+								window.controllerSCE=$sce;
+						});
+				}
+			Init();
 	//github script load
 	function loadScripts(scripts, appendTo) {
 		  appendTo = appendTo || "body";
@@ -180,24 +198,6 @@
   
 		
 		 <script id="queryScript">
-			window.Init =function() {
-					if(window.app || !window.angular)
-						return;
-					window.app = angular.module('DLV', []);
-						app.filter("trust", ['$sce', function($sce) {
-						  return function(htmlCode){
-							return htmlCode;
-						  }
-						}]);
-						
-						app.controller('DLVc', function($scope,$sce) {
-								$scope.docs=[];
-								window.controllerScope=$scope;
-								window.controllerSCE=$sce;
-						});
-				}
-			Init();
-				
 			function Run() {
 				
 				$("#DLV").show();
