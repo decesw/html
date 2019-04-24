@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Query Service - Angular.js Sample</title>
+	<link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js"></script>
+	<script>
+	//github script load
+	function loadScripts(scripts, appendTo) {
+		  appendTo = appendTo || "body";
+			(function recurse(i) {
+			  if (undefined === scripts[i]) return;
+			  let src = scripts[i];
+			  let script = document.createElement('script');
+			  script.type = 'text/javascript';
+			  if (script.readyState) { //IE
+				script.onreadystatechange = () => {
+				  if (script.readyState == 'loaded' || script.readyState == 'complete') {
+					script.onreadystatechange = null;
+					setTimeout(() => {
+					  recurse(++i);
+					}, 1);
+				  }
+				};
+			  } else { //Others
+				script.onload = () => {
+				  setTimeout(() => {
+					recurse(++i);
+				  }, 1);
+				};
+			  }
+			  script.src = src;
+			  document.getElementsByTagName(appendTo)[0].appendChild(script);
+			})(0);
+	}
+		if(!window.jQuery)
+			loadScripts(["https://code.jquery.com/jquery-2.1.3.min.js","https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js","https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"])
+	</script>
+
+
+    <style>
+        .key {
+            color: red;
+        }
+
+        .split {
+            color: red;
+        }
+
+        .value {
+        }
+
+        .form-group {
+            margin-bottom: 5px !important;
+        }
+
+        .control-label {
+            text-align: left !important;
+        }
+
+		.tab-pane {
+			padding:5px;
+		}
+    </style>
+
+    <script>
+	
+	     function json2html(json) {
+            var i, ret = "";
+            ret += "<ul>";
+            for (i in json) {
+                ret += "<li><span class=key>" + i + "</span>";
+                if (typeof json[i] === "object") ret += json2html(json[i]);
+                else ret += "<span class=split>:</span> <span class=value>" + json[i] + "</span>";
+                ret += "</li>";
+            }
+            ret += "</ul>";
+            return ret;
+        }
+    </script>
+</head>
+<body>
+
+ <div class="container">
+        <div class="row">
+            <h3>Query Service - Angular.js Sample</h3>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="serverUrl">Geodi Url </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="serverUrl" id="serverUrl" Value="https://servis2.dece.com.tr">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="token">Token </label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" name="token" id="token" value="EAAAACre%2FTWEGyFZI6ER8Y%2FuifIsGfcRFA17BQwEZkP9iBftv%2FKrOKDZKVmvcA47r22iq95qMfa4nYZf7X8iOlt%2FSJ08Jf1emG4ESuEaKnX7wc0Z43O5KO6UHM5FBFTd56tgjm2hCNVqXZJYvuotdtc1aSd3fOY1WWVBv%2FXsj2lozIwmGk7jheOhJzkHpuMHEiht9GxYeQpcdM1cxF0OIzJSaSgFkEvKBAcHs8%2BNktrgKkRC7GfdRhSTvsb7R7Y%2BGpZG%2FvaRTdZg7XK9vjYKiy646LEt5axE1YStYdoOAijGU802Sg5IVNLOYoFM0Lwlw0WsB9YJ2krc1IKzEZIgZ77h8C1mjbdyHHOwJwL%2B4kl81PWkuD7fRDR74QinJ6F7zjCipOblqEJzJt5m5FO6XaLKIbQcB2p8qKmmnUOMl5MPmQj51S0KxBnajZ%2FZJ6%2FeNQGAbQ%2BRI8Kih%2BKu7T3iU8Xvj1Vvk4Fr8pjg1M2cqPviyA%2Fb7xD%2FH5tUopnZExa6H%2FF4rf%2BmICKQCR%2FeE7NJfUeQHOY%3D">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="wsName">wsName</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" name="wsName" id="wsName" placeholder="Please enter workspace name." value="3003-EN-Travel & Food">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="serverUrl">Query </label>
+                        <div class="col-md-5">
+                            <input id="q" class="form-control" type="text" onkeypress="if (event.keyCode == 13) Run();">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1">&nbsp</label>
+                        <div class="btn-group col-md-11" role="group">
+                            <button type=button onclick='Run()' class="btn btn-default">Run</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<br>
+		<div id=tabs>
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#response">Angular.js Sample GUI</a></li>
+				<li><a data-toggle="tab" href="#jsonResponse">JSON Response</a></li>
+				<li><a data-toggle="tab" href="#htmlCode">HTML Code</a></li>
+				<li><a data-toggle="tab" href="#scriptCode">Javascript Code</a></li>
+			</ul>
+
+			  <div class="tab-content">
+				<div id="response" class="tab-pane fade in active">
+					<div class=firstTime>
+						<p><br>Click To <a href="javascript:Run()">Run</a></p>
+					</div>
+					 <div ng-app="DLV" ng-controller="DLVc" id=DLV style="display:none">
+						  <ul>
+							<li ng-repeat="doc in docs" class=data>
+								
+								<span style="display:none" class=dataid>{{doc.ContentIdentifier}}</span>
+								  {{ doc.DisplayName }} <br>
+								  {{ doc.AdditionalValues.Date }} <br>
+								  
+								   <span ng-bind-html="doc.Summary"></span>
+								  
+								  <hr>
+								  
+							</li>
+						  </ul>
+					</div>
+				</div>
+				<div id="jsonResponse" class="tab-pane fade">
+						<p><br>Click To <a href="javascript:Run()">Run</a></p>
+				</div>
+				
+				<div id="htmlCode" class="tab-pane fade">
+						<pre id=htmlCode1></pre>
+				</div>
+				
+				<div id="scriptCode" class="tab-pane fade">
+						<pre id=scriptCode1></pre>
+				</div>
+				
+			  </div>
+		</div>
+  
+		
+		 <script id="queryScript">
+			window.app = angular.module('DLV', []);
+				app.filter("trust", ['$sce', function($sce) {
+				  return function(htmlCode){
+					return htmlCode;
+				  }
+				}]);
+				
+				app.controller('DLVc', function($scope,$sce) {
+						$scope.docs=[];
+						window.controllerScope=$scope;
+						window.controllerSCE=$sce;
+				});
+				
+			function Run() {
+				
+				$("#DLV").show();
+				$(".firstTime").remove();
+
+				var $scope=window.controllerScope;
+				var $sce=window.controllerSCE;
+				$scope.docs=[];
+				var q=new GeodiQuery();
+				var q=new GeodiQuery();
+				q.wsName= $("#wsName").val();
+				q.EndIndex=8;
+				q.ServerUrl=$("#serverUrl").val();
+				q.Token=$("#token").val();
+				q.SearchString=$("#q").val();
+				q.UseRank=true;		
+				q.GetDocuments2(function(data) {
+						if(data)
+							for(var i=0;i<data.length;i++) 
+							{
+								let d=data[i];
+								var sm=$("<div>"+d.Summary+"</div>");
+								window.SummaryGUI.UpdateSummaryDOM(sm, d, q.wsName,q)
+								d.Summary=$sce.trustAsHtml(sm.html() );
+								$scope.docs.push(d);
+							}
+							$scope.$apply();
+					},
+					{
+						SummaryCount:1
+					}
+					)
+				
+			 }
+        </script>
+		
+
+    </div>
+	<script>
+		function jqLoad() {
+				if(!window.jQuery) {
+					window.setTimeout(jqLoad,100);
+					return;
+				}
+				$(document).ajaxError(function (event, data, settings) {
+					var txt = data.status + ": " + data.statusText + " " + data.responseText;
+					alert(txt);
+				});
+				$("#htmlCode1").text($("#DLV").html());
+				$("#scriptCode1").text($("#queryScript").html());
+			}
+			jqLoad();
+        </script>
+		
+		
+		
+	
+    
+</body>
+</html>
