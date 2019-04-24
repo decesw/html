@@ -171,18 +171,25 @@
   
 		
 		 <script id="queryScript">
-			window.app = angular.module('DLV', []);
-				app.filter("trust", ['$sce', function($sce) {
-				  return function(htmlCode){
-					return htmlCode;
-				  }
-				}]);
-				
-				app.controller('DLVc', function($scope,$sce) {
-						$scope.docs=[];
-						window.controllerScope=$scope;
-						window.controllerSCE=$sce;
-				});
+		 	function Init() {
+				if(!window.angular) {
+					window.setTimeout(Init,100);
+					return;
+				}
+					window.app = angular.module('DLV', []);
+						app.filter("trust", ['$sce', function($sce) {
+						  return function(htmlCode){
+							return htmlCode;
+						  }
+						}]);
+						
+						app.controller('DLVc', function($scope,$sce) {
+								$scope.docs=[];
+								window.controllerScope=$scope;
+								window.controllerSCE=$sce;
+						});
+				}
+			Init();
 				
 			function Run() {
 				
