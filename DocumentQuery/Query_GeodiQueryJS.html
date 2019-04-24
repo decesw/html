@@ -287,7 +287,7 @@
 
     <div id=templates style="display:none">
 
-        <template id=tmpSimple type="dece-template">
+        <template id=tmpSimple>
             <d:r data="data">
                 <li>
                     {{ data.DisplayName }}  -  {{ data.AdditionalValues.Date }} <br>
@@ -297,7 +297,7 @@
         </template>
 
 
-        <template id=onlyImages type="dece-template">
+        <template id=onlyImages>
             <d:r data="data">
                 <d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
                     <a href="{{data.GetHref()}}" target="_blank">
@@ -307,7 +307,7 @@
             </d:r>
         </template>
 
-        <template id=crouselTemplate type="dece-template">
+        <template id=crouselTemplate>
             <d:r visible="data && data.length&gt;0 ">
                 <div id="crs_{{context.targetDom.attr('id')}}" class="carousel slide" data-ride="carousel">
 
