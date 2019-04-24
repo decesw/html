@@ -108,6 +108,7 @@
                 Recognize: 4,
                 WsInfo: 8,
 				ClientToken:16,
+				AdvancedQuery:32,
 				Any:256
             }
 
@@ -125,6 +126,7 @@
                 if ($("#recognize").is(":checked")) data.TokenTarget |= TokenTarget.Recognize;
                 if ($("#wsInfo").is(":checked")) data.TokenTarget |= TokenTarget.WsInfo;
 				if ($("#chkClienToken").is(":checked")) data.TokenTarget |= TokenTarget.ClientToken;
+				if ($("#chkAdvancedQuery").is(":checked")) data.TokenTarget |= TokenTarget.AdvancedQuery;
 				
                 if ($("#feed").is(":checked")) {
                     data.TokenTarget |= TokenTarget.Feed;
@@ -177,6 +179,12 @@
                         <label class="control-label col-md-1">&nbsp;</label>
                         <div class="col-md-5">
                             <input type="checkbox" id="wsInfo" checked> <span>Workspace Info</span>
+                        </div>
+                    </div>
+					 <div class="form-group">
+                        <label class="control-label col-md-1">&nbsp;</label>
+                        <div class="col-md-5">
+                            <input type="checkbox" id="chkAdvancedQuery" checked> <span>Advanced Query</span>
                         </div>
                     </div>
 					 <div class="form-group">
