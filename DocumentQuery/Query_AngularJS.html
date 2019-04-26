@@ -8,24 +8,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 	<script src="https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js"></script>
 	<script>
-	//angular init
-		window.Init =function() {
-					if(window.app || !window.angular)
-						return;
-					window.app = angular.module('DLV', []);
-						app.filter("trust", ['$sce', function($sce) {
-						  return function(htmlCode){
-							return htmlCode;
-						  }
-						}]);
-						
-						app.controller('DLVc', function($scope,$sce) {
-								$scope.docs=[];
-								window.controllerScope=$scope;
-								window.controllerSCE=$sce;
-						});
-				}
-			Init();
 	//github script load
 	function loadScripts(scripts, appendTo) {
 		  appendTo = appendTo || "body";
@@ -45,14 +27,12 @@
 				};
 			  } else { //Others
 				script.onload = () => {
-					Init();
 				  setTimeout(() => {
 					recurse(++i);
 				  }, 1);
 				};
 			  }
 			  script.src = src;
-			  Init();
 			  document.getElementsByTagName(appendTo)[0].appendChild(script);
 			})(0);
 	}
@@ -198,8 +178,33 @@
   
 		
 		 <script id="queryScript">
+			//angular init
+				window.Init =function() {
+					if(window.app)
+						return;
+					if(!window.angular) {
+						window.setTimeout(Init,100);
+						return;
+					}
+						
+					window.app = angular.module('DLV', ['ngRoute']);
+						app.filter("trust", ['$sce', function($sce) {
+						  return function(htmlCode){
+							return htmlCode;
+						  }
+						}]);
+						
+						app.controller('DLVc', function($scope,$sce) {
+								$scope.docs=[];
+								window.controllerScope=$scope;
+								window.controllerSCE=$sce;
+						});
+				}
+			Init();
+			//run
 			function Run() {
 				
+				if(!window.controllerScope) return;
 				$("#DLV").show();
 				$(".firstTime").remove();
 
