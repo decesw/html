@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Query Service - GeodiQueryJS</title>
+    <title>Query Service - GeodiQueryJS Template Editor</title>
     <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
@@ -99,7 +99,7 @@
     <div class="container">
 
         <div class="row">
-            <h3>Query Service - GeodiQueryJS</h3>
+            <h3>Query Service - GeodiQueryJS Template Editor</h3>
         </div>
 
         <div class="row">
@@ -126,13 +126,28 @@
                     <div class="form-group">
                         <label class="control-label col-md-1" for="serverUrl">Query </label>
                         <div class="col-md-5">
-                            <input id="q" class="form-control" type="text" onkeypress="if (event.keyCode == 13) Run();">
+                            <input id="q" class="form-control" value="*.jpg" type="text" onkeypress="if (event.keyCode == 13) Run();">
+                        </div>
+                    </div>
+					
+					<div class="form-group">
+                        <label class="control-label col-md-12" for="serverUrl">Template ( 
+								<select id=preDefinedTemplates onchange="SetTemplate(this)">
+									
+								</select> 
+							)</label>
+							<br><br>
+                        <div class="col-md-12">
+                            <textarea id="template1" class="form-control" rows=10>
+							</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-1">&nbsp</label>
-                        <div class="btn-group col-md-11" role="group">
-                            <button type=button onclick='Run()' class="btn btn-default">Run</button>
+                        <div class="col-md-12" align=right >
+                            <button type=button onclick='Run()' class="btn btn-default">Run Template</button>
+							<button type=button onclick='RunPredefined()' class="btn btn-default">Run Predefined</button>
+							<button type=button onclick='RunPredefinedHorizantal()' class="btn btn-default">Run Predefined Horizantal</button>
+							
                         </div>
                     </div>
                 </div>
@@ -146,98 +161,15 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#response">GeodiQueryJS GUI Samples</a></li>
                 <li><a data-toggle="tab" href="#jsonResponse">JSON Response</a></li>
-                <li><a data-toggle="tab" href="#htmlCode">Sample HTML Templates</a></li>
                 <li><a data-toggle="tab" href="#scriptCode">Javascript Code</a></li>
             </ul>
 
             <div class="tab-content">
                 <div id="response" class="tab-pane fade in active">
-                    <div class=firstTime>
-                        <p><br>Click To <a href="javascript:Run()">Run</a></p>
-                    </div>
-                    <div id="responseArea" class="panel-group" style="display:none">
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#responseArea" href="#collapse1">DLV Horizantal</a>
-                                </h4>
-                            </div>
-                            <div id="collapse1" class="panel-collapse collapse in">
-                                <div id=DLVHor1>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#responseArea" href="#collapse2">DLV</a>
-                                </h4>
-                            </div>
-                            <div id="collapse2" class="panel-collapse collapse">
-                                <div id=DLV>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#responseArea" href="#collapse3">Simple</a>
-                                </h4>
-                            </div>
-                            <div id="collapse3" class="panel-collapse collapse">
-                                <div id=DLVSimple>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#responseArea" href="#collapse4">Images</a>
-                                </h4>
-                            </div>
-                            <div id="collapse4" class="panel-collapse collapse">
-                                if you don't see a content, try querying <a href="#" onclick="$('#q').val('*.jpg');Run();">"* .jpg"</a>
-                                <div id=DLVImages>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#responseArea" href="#collapse5">Carousel - For Images</a>
-                                </h4>
-                            </div>
-                            <div id="collapse5" class="panel-collapse collapse">
-                                if you don't see a content, try querying <a href="#" onclick="$('#q').val('*.jpg');Run();">"* .jpg"</a>
-                                <div id=myCarousel style="width:250px">
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+					<p><br>Click To <a href="javascript:Run()">Run</a></p>
                 </div>
                 <div id="jsonResponse" class="tab-pane fade">
                     <p><br>Click To <a href="javascript:Run()">Run</a></p>
-                </div>
-
-                <div id="htmlCode" class="tab-pane fade">
-                    <pre id=htmlCode1></pre>
                 </div>
 
                 <div id="scriptCode" class="tab-pane fade">
@@ -250,130 +182,174 @@
 
     </div>
 
-    <div id=templates style="display:none">
+ 
+		<div id=templates style="display:none">
 
-        <script type="dece-template" id=tmpSimple>
-            <d:r data="data">
-                <li>
-                    {{ data.DisplayName }}  -  {{ data.AdditionalValues.Date }} <br>
-                    <span class="SummaryText __textclass geodiFormatable" contentid="{{data.ContentIdentifier}}">{{data.Summary}}</span>
-                </li>
-            </d:r>
+		
+        <script type="dece-template" id=tmpSimple displayname="Simple">
+<d:r data="data">
+	<li>
+		{{ data.DisplayName }}  -  {{ data.AdditionalValues.Date }} <br>
+		<span class="SummaryText __textclass geodiFormatable" contentid="{{data.ContentIdentifier}}">{{data.Summary}}</span>
+	</li>
+</d:r>
         </script>
 
 
-        <script type="dece-template" id=onlyImages>
-            <d:r data="data">
-                <d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
-                    <a href="{{data.GetHref()}}" target="_blank">
-                        <img src="{{context.ResolveUrl('~/GeodiJSONService?op=getContentThumbnail&ContentIdentifier=' + data.RedirId + '&wsName=' + HttpUtility.UrlEncode(context.Options.Query.wsName) + '&rnd=' + window.___DomStartDate, false) }}" border=0 title="{{data.DisplayName}}" />
-                    </a>
-                </d:r>
-            </d:r>
+        <script type="dece-template" id=onlyImages displayname="Images">
+<d:r data="data">
+	<d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
+		<a href="{{data.GetHref()}}" target="_blank">
+			<img src="{{context.ResolveUrl('~/GeodiJSONService?op=getContentThumbnail&ContentIdentifier=' + data.RedirId + '&wsName=' + HttpUtility.UrlEncode(context.Options.Query.wsName) + '&rnd=' + window.___DomStartDate, false) }}" border=0 title="{{data.DisplayName}}" />
+		</a>
+	</d:r>
+</d:r>
         </script>
 
-        <script type="dece-template" id=crouselTemplate>
-            <d:r visible="data && data.length ">
-                <div id="crs_{{context.targetDom.attr('id')}}" class="carousel slide" data-ride="carousel">
+        <script type="dece-template" id=crouselTemplate displayname="Carousel">
+<d:r visible="data && data.length ">
+	<div id="crs_{{context.targetDom.attr('id')}}" class="carousel slide" data-ride="carousel">
 
 
-                    <ol class="carousel-indicators">
-                        <d:r data="data">
-                            <d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
-                                <li data-target="#crs_{{context.targetDom.attr('id')}}" data-slide-to="{{data.repeaterIndex}}" {{data.repeaterIndex ==0? "class=active":""}}></li>
-                            </d:r>
-                        </d:r>
-                    </ol>
+		<ol class="carousel-indicators">
+			<d:r data="data">
+				<d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
+					<li data-target="#crs_{{context.targetDom.attr('id')}}" data-slide-to="{{data.repeaterIndex}}" {{data.repeaterIndex ==0? "class=active":""}}></li>
+				</d:r>
+			</d:r>
+		</ol>
 
-                    <div class="carousel-inner">
-                        <d:r data="data">
-                            <d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
-                                <div class="item{{data.repeaterIndex ==0? " active":""}}">
-                                    <a href="{{data.GetHref()}}" target="_blank">
-                                        <img width=300px src="{{context.ResolveUrl('~/GeodiJSONService?op=getContentThumbnail&ContentIdentifier=' + data.RedirId + '&wsName=' + HttpUtility.UrlEncode(context.Options.Query.wsName) + '&rnd=' + window.___DomStartDate, false) }}" border=0 title="{{data.DisplayName}}" />
-                                        <div class="carousel-caption">
-                                            {{data.DisplayName}}
-                                        </div>
-                                    </a>
-                                    <div style="background-color:#666;color:#fff;padding:5px;">{{data.DisplayName}}</div>
-                                </div>
-                            </d:r>
-                        </d:r>
-                    </div>
+		<div class="carousel-inner">
+			<d:r data="data">
+				<d:r visible="(data.DocStatus&8)==8/*hasPreview*/">
+					<div class="item{{data.repeaterIndex ==0? " active":""}}">
+						<a href="{{data.GetHref()}}" target="_blank">
+							<img width=300px src="{{context.ResolveUrl('~/GeodiJSONService?op=getContentThumbnail&ContentIdentifier=' + data.RedirId + '&wsName=' + HttpUtility.UrlEncode(context.Options.Query.wsName) + '&rnd=' + window.___DomStartDate, false) }}" border=0 title="{{data.DisplayName}}" />
+							<div class="carousel-caption">
+								{{data.DisplayName}}
+							</div>
+						</a>
+						<div style="background-color:#666;color:#fff;padding:5px;">{{data.DisplayName}}</div>
+					</div>
+				</d:r>
+			</d:r>
+		</div>
 
-                    <a class="left carousel-control" href="#crs_{{context.targetDom.attr('id')}}" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#crs_{{context.targetDom.attr('id')}}" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+		<a class="left carousel-control" href="#crs_{{context.targetDom.attr('id')}}" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#crs_{{context.targetDom.attr('id')}}" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+			<span class="sr-only">Next</span>
+		</a>
 
-                </div>
+	</div>
+</d:r>
         </script>
     </div>
+	
+	
 
     <script id="queryScript">
+	function Run() {
+		$("#response").empty();
+		//https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js included
+		
+		var q = new GeodiQuery();
+		q.wsName = $("#wsName").val();
+		q.EndIndex = 8;
+		q.ServerUrl = $("#serverUrl").val();
+		q.Token = $("#token").val();
+		q.SearchString = $("#q").val();
+		q.UseRank = true;
+		if (!HttpUtility.ResolveUrl)
+			HttpUtility.ResolveUrl = q.ResolveUrl;
+		RenderDLV(
+				{ 
+					Query: q, 
+					TargetDiv: "#response", 
+					Template:$("#template1").val(),
+					OnEndRender: function (args) {
+						$("#jsonResponse").html(json2html(args.Data));
+					}
+				}
+			)
+			
+	}
 
 
-        function Run() {
-            $("#responseArea").show();
-            $(".firstTime").remove();
+	function RunPredefined() {
+		$("#response").empty();
+		//https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js included
+		
+		var q = new GeodiQuery();
+		q.wsName = $("#wsName").val();
+		q.EndIndex = 8;
+		q.ServerUrl = $("#serverUrl").val();
+		q.Token = $("#token").val();
+		q.SearchString = $("#q").val();
+		q.UseRank = true;
+		if (!HttpUtility.ResolveUrl)
+			HttpUtility.ResolveUrl = q.ResolveUrl;
+		RenderDLV(
+				{ 
+					Query: q, 
+					TargetDiv: "#response", 
+					OnEndRender: function (args) {
+						$("#jsonResponse").html(json2html(args.Data));
+					}
+				}
+			)
+	}
 
+	function RunPredefinedHorizantal() {
+		$("#response").empty();
+		//https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js included
+		
+		var q = new GeodiQuery();
+		q.wsName = $("#wsName").val();
+		q.EndIndex = 8;
+		q.ServerUrl = $("#serverUrl").val();
+		q.Token = $("#token").val();
+		q.SearchString = $("#q").val();
+		q.UseRank = true;
+		if (!HttpUtility.ResolveUrl)
+			HttpUtility.ResolveUrl = q.ResolveUrl;
+		RenderDLV_Hor(
+				{ 
+					Query: q, 
+					TargetDiv: "#response", 
+					OnEndRender: function (args) {
+						$("#jsonResponse").html(json2html(args.Data));
+					}
+				}
+			)
+	}
 
-            $("#DLV").empty();
-            $("#DLVHor1").empty();
-            $("#DLVSimple").empty();
-            $("#DLVImages").empty();
-            $("#myCarousel").empty();
-
-            //https://servis2.dece.com.tr/GUI/js/GeodiQueryJS.js included
-            var q = new GeodiQuery();
-            q.wsName = $("#wsName").val();
-            q.EndIndex = 8;
-            q.ServerUrl = $("#serverUrl").val();
-            q.Token = $("#token").val();
-            q.SearchString = $("#q").val();
-            q.UseRank = true;
-            if (!HttpUtility.ResolveUrl)
-                HttpUtility.ResolveUrl = q.ResolveUrl;
-            /*
-			//multiplequery
-				RenderDLV({ Query: q, TargetDiv: "#DLV" } )
-				RenderDLV({ Query: q, TargetDiv: "#DLVSimple", Template :$("#tmpSimple") } )
-				RenderDLV({Query: q, TargetDiv: "#DLVImages",  Template :$("#onlyImages") } )
-				RenderDLV({ Query: q, TargetDiv: "#myCarousel", Template :$("#crouselTemplate") } )
-				RenderDLV({ Query: q, TargetDiv: "#DLVHor1" })
-			*/
-
-            //single query multi render
-            RenderDLV({
-                Query: q, TargetDiv: "#DLV",
-                MultipleTarget: [
-					{ TargetDiv: "#DLVSimple", Template: $("#tmpSimple") },
-					{ TargetDiv: "#DLVImages", Template: $("#onlyImages") },
-					{ TargetDiv: "#myCarousel", Template: $("#crouselTemplate") },
-					{ TargetDiv: "#DLVHor1", TemplateSelector: window.TemplateSelectors.DefaultDLV_Hor }
-                ],
-                OnEndRender: function (args) {
-                    $("#jsonResponse").html(json2html(args.Data));
-                }
-            })
-
-        }
-
-        //Default Template Commands
-        window._PSCC = {
-            Command: function (cmd) {
-                if (cmd.Command == "OpenWindow" || cmd.Command == "OpenView" || cmd.Command == "Download")
-                    window.open(cmd.Url);
-            }
-        }
-
+	//Default Template Commands
+	window._PSCC = {
+		Command: function (cmd) {
+			if (cmd.Command == "OpenWindow" || cmd.Command == "OpenView" || cmd.Command == "Download")
+				window.open(cmd.Url);
+		}
+	}
     </script>
 
     <script>
+		$("#templates script").each(function(i) {
+			var d=$(this);
+			$("#preDefinedTemplates").append("<option "+(window._selOk?"":"selected")+" value='"+d.attr("id")+"'>"+d.attr("displayname")+"</option>");
+			window._selOk=true;
+		})
+		
+		$("#preDefinedTemplates").change();
+		
+		function SetTemplate(obj) {
+			$("#template1").val($("#"+$(obj).val()).html().trim());
+		}
+		
+	
         function jqLoad() {
             if (!window.jQuery) {
                 window.setTimeout(jqLoad, 100);
@@ -383,7 +359,7 @@
                 var txt = data.status + ": " + data.statusText + " " + data.responseText;
                 alert(txt);
             });
-            $("#htmlCode1").text($("#templates").html());
+            
             $("#scriptCode1").text($("#queryScript").html());
         }
         jqLoad();
