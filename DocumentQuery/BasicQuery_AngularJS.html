@@ -6,65 +6,7 @@
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-	<script>
-	//angulaer
-	window.Init =function() {
-				if(window.app || !window.angular)
-					return;
-				window.app = angular.module('DLV', []);
-					app.filter("trust", ['$sce', function($sce) {
-					  return function(htmlCode){
-						return htmlCode;
-					  }
-					}]);
-					
-					app.controller('DLVc', function($scope,$sce) {
-							$scope.docs=[];
-							window.controllerScope=$scope;
-							window.controllerSCE=$sce;
-					});
-			}
-	Init();
-			
-	//github script load
-	function loadScripts(scripts, appendTo) {
-		  appendTo = appendTo || "body";
-			(function recurse(i) {
-			  if (undefined === scripts[i]) return;
-			  let src = scripts[i];
-			  let script = document.createElement('script');
-			  script.type = 'text/javascript';
-			  if (script.readyState) { //IE
-				script.onreadystatechange = () => {
-				  if (script.readyState == 'loaded' || script.readyState == 'complete') {
-					script.onreadystatechange = null;
-					setTimeout(() => {
-					  recurse(++i);
-					}, 1);
-				  }
-				};
-			  } else { //Others
-				script.onload = () => {
-				  setTimeout(() => {
-					Init();
-					recurse(++i);
-				  }, 1);
-				};
-			  }
-			  script.src = src;
-			  Init();
-			  document.getElementsByTagName(appendTo)[0].appendChild(script);
-			})(0);
-	}
-		function loadScriptStart() {
-			if(!window.jQuery && window.Init)
-				loadScripts(["https://code.jquery.com/jquery-2.1.3.min.js","https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js","https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"])
-			else
-				window.setTimeout(loadScriptStart,100);
-		}
-		window.setTimeout(loadScriptStart,100);
-	</script>
-
+	
 
     <style>
         .key {
@@ -197,6 +139,23 @@
   
 		
 		 <script id="queryScript">
+		 
+			//angular js  init
+			window.app = angular.module('DLV', ['ngRoute']);
+				app.filter("trust", ['$sce', function($sce) {
+				  return function(htmlCode){
+					return htmlCode;
+				  }
+				}]);
+				
+				app.controller('DLVc', function($scope,$sce) {
+						$scope.docs=[];
+						window.controllerScope=$scope;
+						window.controllerSCE=$sce;
+				});
+				
+			//run
+					
 			function Run() {
 				
 				$("#DLV").show();
