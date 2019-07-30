@@ -86,7 +86,7 @@
             var i, ret = "";
             ret += "<ul>";
             for (i in json)
-                if (i != "parentdata" && i!="targetDom"&& i!="request" && typeof json[i] !== "function") {
+                if (i != "parentdata" && i!="targetDom" && i!="Context" && i!="request" && typeof json[i] !== "function") {
                     ret += "<li><span class=key>" + i + "</span>";
                     if (typeof json[i] === "object") ret += json2html(json[i],level+1);
                     else ret += "<span class=split>:</span> <span class=value>" + json[i] + "</span>";
